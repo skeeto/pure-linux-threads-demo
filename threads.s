@@ -1,3 +1,4 @@
+;; Pure assembly, no stdlib, Linux threading demo
 bits 64
 default rel
 global _start
@@ -27,7 +28,7 @@ global _start
 
 %define STACK_SIZE	(4096 * 1024)
 
-%define MAX_COUNT	1000000
+%define MAX_LINES	1000000	; number of output lines before exiting
 
 section .bss
 count:	resq 1
@@ -60,7 +61,7 @@ threadfn:
 check_count:
 	mov rax, 1
 	lock xadd [count], rax
-.check:	cmp rax, MAX_COUNT
+.check:	cmp rax, MAX_LINES
 	jge .exit
 	ret
 .exit	mov rdi, 0
