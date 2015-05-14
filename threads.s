@@ -27,14 +27,14 @@ global _start
 
 %define STACK_SIZE	(4096 * 1024)
 
-%define MAX_COUNT	10000
+%define MAX_COUNT	1000000
 
 section .bss
 count:	resq 1
 
 section .text
 _start:
-	; Spawn two threads
+	; Spawn a few threads
 	mov rdi, threadfn
 	call thread_create
 	mov rdi, threadfn
@@ -58,16 +58,13 @@ threadfn:
 
 ;; void check_count(void) -- may not return
 check_count:
-	mov rax, [count]
+	mov rax, 1
+	lock xadd [count], rax
 .check:	cmp rax, MAX_COUNT
-	jl .inc
-	mov rdi, 0
-	jmp exit
-.inc:	lea rcx, [rax + 1]
-	lock cmpxchg [count], rcx
-	sub rcx, rax
-	jle .check
+	jge .exit
 	ret
+.exit	mov rdi, 0
+	jmp exit
 
 ;; void puts(char *)
 puts:
