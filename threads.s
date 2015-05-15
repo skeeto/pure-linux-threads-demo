@@ -29,8 +29,8 @@ global _start
 
 %define MAX_LINES	1000000	; number of output lines before exiting
 
-section .bss
-count:	resq 1
+section .data
+count:	dq MAX_LINES
 
 section .text
 _start:
@@ -58,10 +58,9 @@ threadfn:
 
 ;; void check_count(void) -- may not return
 check_count:
-	mov rax, 1
+	mov rax, -1
 	lock xadd [count], rax
-	cmp rax, MAX_LINES
-	jge .exit
+	jl .exit
 	ret
 .exit	mov rdi, 0
 	jmp exit
