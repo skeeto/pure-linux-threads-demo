@@ -60,7 +60,7 @@ threadfn:
 check_count:
 	mov rax, 1
 	lock xadd [count], rax
-.check:	cmp rax, MAX_LINES
+	cmp rax, MAX_LINES
 	jge .exit
 	ret
 .exit	mov rdi, 0
