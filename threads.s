@@ -86,7 +86,7 @@ puts:
 	syscall
 	ret
 
-;; void thread_create(void (*)(void))
+;; long thread_create(void (*)(void))
 thread_create:
 	push rdi
 	call stack_create
