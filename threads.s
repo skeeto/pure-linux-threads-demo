@@ -63,7 +63,8 @@ check_count:
 	jl .exit
 	ret
 .exit	mov rdi, 0
-	jmp exit
+	mov rax, SYS_exit
+	syscall
 
 ;; void puts(char *)
 puts:
@@ -89,11 +90,6 @@ thread_create:
 	mov rax, SYS_clone
 	syscall
 	ret
-
-;; noreturn exit(int)
-exit:
-	mov rax, SYS_exit
-	syscall
 
 ;; void *sbrk(size_t)
 sbrk:
