@@ -1,6 +1,5 @@
 ;; Pure assembly, library-free Linux threading demo
 bits 64
-default rel
 global _start
 
 ;; sys/syscall.h
