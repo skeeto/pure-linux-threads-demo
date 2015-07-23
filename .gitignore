@@ -1,2 +1,3 @@
-threads.o
-plain-threads
+threads.x86_64
+threads.i386
+*.o

@@ -1,15 +1,19 @@
 NASM      ?= nasm
-NASMFLAGS  = -g
+NASMFLAGS  =  -Fdwarf -g
 
-plain-threads : threads.o
-	$(LD) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+all : threads.x86_64 threads.i386
 
-threads.o : threads.s
+threads.x86_64 : threads-x86_64.o
+	$(LD) -melf_x86_64 $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
-clean :
-	$(RM) threads.o plain-threads
+threads.i386 : threads-i386.o
+	$(LD) -melf_i386 $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
-%.o : %.s
+threads-x86_64.o : threads-x86_64.s
 	$(NASM) -felf64 $(NASMFLAGS) -o $@ $^
 
-.PHONY : clean
+threads-i386.o : threads-i386.s
+	$(NASM) -felf32 $(NASMFLAGS) -o $@ $^
+
+clean :
+	$(RM) *.o threads.x86_64 threads.i386
