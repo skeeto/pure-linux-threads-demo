@@ -103,6 +103,8 @@ stack_create:
 	mov rsi, STACK_SIZE
 	mov rdx, PROT_WRITE | PROT_READ
 	mov r10, MAP_ANONYMOUS | MAP_PRIVATE | MAP_GROWSDOWN
+	mov r8, -1
+	mov r9, 0
 	mov rax, SYS_mmap
 	syscall
 	ret
